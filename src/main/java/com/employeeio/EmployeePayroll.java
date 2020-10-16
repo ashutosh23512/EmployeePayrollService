@@ -37,6 +37,11 @@ public class EmployeePayroll {
 
 	}
 
+	public void printData(IOService ioService) {
+		if (ioService.equals(IOService.FILE_IO))
+			new EmpIOService().printData();
+	}
+
 	public long countEntries(IOService ioService) {
 		if (ioService.equals(IOService.FILE_IO))
 			return new EmpIOService().countEntries();
