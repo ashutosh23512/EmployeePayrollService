@@ -2,9 +2,13 @@ package com.employeeio;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+import java.util.Scanner;
 
 public class EmployeePayroll {
+
+	public enum IOService {
+		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
+	}
 
 	private List<EmployeeData> employeePayrollList;
 
@@ -25,17 +29,18 @@ public class EmployeePayroll {
 		employeePayrollList.add(new EmployeeData(id, name, salary));
 	}
 
-	private void writeEmployeePayrollData(Scanner consoleInputReader) {
-		System.out.println("\nWriting Employee Payroll Data to Console\n" + employeePayrollList);
+	public void writeEmpPayrollData(IOService ioService) {
+		if (ioService.equals(IOService.CONSOLE_IO))
+			System.out.println("\nWriting Payroll to Console\n" + employeePayrollList);
+		else if (ioService.equals(IOService.FILE_IO))
+			new EmpIOService().writeData(employeePayrollList);
+
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Welcome to Employee Payroll Service");
-		List<EmployeeData> employeePayrollList = new ArrayList<>();
-		EmployeePayroll employeePayrollService = new EmployeePayroll(employeePayrollList);
-		Scanner consoleInputReader = new Scanner(System.in);
-		employeePayrollService.readEmployeePayrollData(consoleInputReader);
-		employeePayrollService.writeEmployeePayrollData(consoleInputReader);
+	public long countEntries(IOService ioService) {
+		if (ioService.equals(IOService.FILE_IO))
+			return new EmpIOService().countEntries();
+		return 0;
 	}
 
 }
